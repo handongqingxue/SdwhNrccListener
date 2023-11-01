@@ -35,6 +35,12 @@ public class APIUtil {
 	
 	public static void switchSystem(int curSysFlag) {
 		switch (curSysFlag) {
+		case Constant.WFPXHGYXGS:
+			cityFlag=Constant.WEI_FANG;
+			systemFlag=Constant.WFPXHGYXGS;
+			epVersion=Constant.VERSION_3_1;
+			apiFlag=Constant.SDWH;
+			break;
 		case Constant.WFRZJXHYXGS:
 			cityFlag=Constant.WEI_FANG;
 			systemFlag=Constant.WFRZJXHYXGS;
