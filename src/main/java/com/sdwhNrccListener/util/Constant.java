@@ -1,6 +1,12 @@
 package com.sdwhNrccListener.util;
 
 public class Constant {
+	
+	public static final String SERVICE_URL="http://localhost:8080/SdwhNrcc/";
+	public static final String EP_V1_3="epV1_3/";
+	public static final String EP_V3_1="epV3_1/";
+	public static final String SDWH_API="sdwhApi/";
+	public static final String LZQ_API="lzqApi/";
 
 	/**
 	 * 主窗口标题
@@ -26,7 +32,7 @@ public class Constant {
 	/**
 	 * 当前系统标识
 	 */
-	public static final int CUR_SYS_FLAG=1;
+	public static final int CUR_SYS_FLAG=2;
 	/**
 	 * 潍坊润中精细化工有限公司
 	 */
@@ -55,4 +61,26 @@ public class Constant {
 	 * 山东蓝天消毒科技有限公司
 	 */
 	public static final int SDLTXDKJYXGS=7;
+	
+	public static final int WEI_FANG=1;
+	public static final int HE_ZE=2;
+	public static final int ZI_BO=3;
+	public static final int TAI_AN=4;
+	
+	/**
+	 * 1.3版本的接口标识
+	 */
+	public static final int VERSION_1_3=1;
+	/**
+	 * 3.1版本的接口标识
+	 */
+	public static final int VERSION_3_1=2;
+	
+	public static final int SDWH=1;
+	public static final int LZQ=2;
+	
+	public static final String TOMCAT_BIN_DIR="D:/tomcat8.5.57/bin/";
+	//public static final String TOMCAT_BIN_DIR="E:/tomcat8.5.57/bin/";
+	public static final String TOMCAT_SHUTDOWN_DIR=TOMCAT_BIN_DIR+"shutdown.bat";
+	public static final String TOMCAT_STARTUP_DIR=TOMCAT_BIN_DIR+"startup.bat";
 }

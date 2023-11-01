@@ -14,12 +14,41 @@ import java.util.Map.Entry;
 import org.json.JSONObject;
 
 public class APIUtil {
+	
+	private static int cityFlag;
+	private static int systemFlag;
+	private static int epVersion;
+	public static int getEpVersion() {
+		return epVersion;
+	}
 
-	public static final String SERVICE_URL="http://localhost:8080/SdwhNrcc/";
+	private static int apiFlag;
+	
 	/**
 	 * 是否正在读取接口数据
 	 */
 	public static boolean reading;
+	
+	static {
+		switchSystem(Constant.CUR_SYS_FLAG);
+	}
+	
+	public static void switchSystem(int curSysFlag) {
+		switch (curSysFlag) {
+		case Constant.WFRZJXHYXGS:
+			cityFlag=Constant.WEI_FANG;
+			systemFlag=Constant.WFRZJXHYXGS;
+			epVersion=Constant.VERSION_1_3;
+			apiFlag=Constant.SDWH;
+			break;
+		case Constant.SDFLXCLKJYXGS:
+			cityFlag=Constant.HE_ZE;
+			systemFlag=Constant.SDFLXCLKJYXGS;
+			epVersion=Constant.VERSION_3_1;
+			apiFlag=Constant.SDWH;
+			break;
+		}
+	}
 
 	//https://www.cnblogs.com/aeolian/p/7746158.html
 	//https://www.cnblogs.com/bobc/p/8809761.html
@@ -40,7 +69,7 @@ public class APIUtil {
 			
 			StringBuffer sbf = new StringBuffer(); 
 			String strRead = null; 
-			URL url = new URL(SERVICE_URL+method);
+			URL url = new URL(Constant.SERVICE_URL+method);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			//connection.setConnectTimeout(15000);
 			connection.setReadTimeout(15000);//Read timed out
@@ -88,9 +117,10 @@ public class APIUtil {
 		reading=true;
 		System.out.println("reading2==="+reading);
 		try {
+			int epFlag = systemFlag;
 			Map<String, Object> params=new HashMap<String, Object>();
-			params.put("epFlag", 1);
-	        resultJO = doHttp("epV1_3/insertLocationData",params);
+			params.put("epFlag", epFlag);
+	        resultJO = doHttp(Constant.EP_V1_3+"insertLocationData",params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -117,9 +147,9 @@ public class APIUtil {
 		System.out.println("reading2==="+reading);
 		try {
 			Map<String, Object> params=new HashMap<String, Object>();
-			params.put("cityFlag", 1);
-			params.put("systemFlag", 1);
-	        resultJO = doHttp("sdwhApi/dataEmployeeLocations",params);
+			params.put("cityFlag", cityFlag);
+			params.put("systemFlag", systemFlag);
+	        resultJO = doHttp(Constant.SDWH_API+"/dataEmployeeLocations",params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
