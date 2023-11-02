@@ -7,6 +7,7 @@ public class Constant {
 	public static final String EP_V3_1="epV3_1/";
 	public static final String SDWH_API="sdwhApi/";
 	public static final String LZQ_API="lzqApi/";
+	public static final String SERVER_RECEIVER="serverReceiver/";
 
 	/**
 	 * 主窗口标题
@@ -32,7 +33,7 @@ public class Constant {
 	/**
 	 * 当前系统标识
 	 */
-	public static final int CUR_SYS_FLAG=3;
+	public static final int CUR_SYS_FLAG=5;
 	/**
 	 * 潍坊润中精细化工有限公司
 	 */

@@ -38,8 +38,12 @@ public class KeepWatchTask extends Thread {
 	public void run() {
 		// TODO Auto-generated method stub
 		try {
+			long millis=0;
+			int epVersion = APIUtil.getEpVersion();
+			if(epVersion==Constant.VERSION_3_1)
+			APIUtil.receiveMessage();
 			while (true) {
-				if(APIUtil.getEpVersion()==Constant.VERSION_1_3) {
+				if(epVersion==Constant.VERSION_1_3) {
 					JSONObject ildJO = APIUtil.insertLocationData();
 					System.out.println("ildJO==="+ildJO.toString());
 					System.out.println("巡回位置更新........"+ildJO.getBoolean("success"));
@@ -61,10 +65,13 @@ public class KeepWatchTask extends Thread {
 						}
 						*/
 					}
+					millis=35000;
+				}
+				else if(epVersion==Constant.VERSION_3_1) {
+					millis=60000;
 				}
 				JSONObject delJO = APIUtil.dataEmployeeLocations();
-				System.out.println("111111111111111");
-				Thread.sleep(35000);
+				Thread.sleep(millis);
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

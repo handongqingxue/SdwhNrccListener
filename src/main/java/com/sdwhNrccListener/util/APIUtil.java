@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 import org.json.JSONObject;
 
 public class APIUtil {
-	
+
 	private static int cityFlag;
 	private static int systemFlag;
 	private static int epVersion;
@@ -23,7 +23,6 @@ public class APIUtil {
 	}
 
 	private static int apiFlag;
-	
 	/**
 	 * 是否正在读取接口数据
 	 */
@@ -35,22 +34,34 @@ public class APIUtil {
 	
 	public static void switchSystem(int curSysFlag) {
 		switch (curSysFlag) {
-		case Constant.WFPXHGYXGS:
+		case Constant.WFPXHGYXGS://普鑫
 			cityFlag=Constant.WEI_FANG;
 			systemFlag=Constant.WFPXHGYXGS;
 			epVersion=Constant.VERSION_3_1;
 			apiFlag=Constant.SDWH;
 			break;
-		case Constant.WFRZJXHYXGS:
-			cityFlag=Constant.WEI_FANG;
-			systemFlag=Constant.WFRZJXHYXGS;
-			epVersion=Constant.VERSION_1_3;
-			apiFlag=Constant.SDWH;
-			break;
-		case Constant.SDFLXCLKJYXGS:
+		case Constant.SDFLXCLKJYXGS://福林
 			cityFlag=Constant.HE_ZE;
 			systemFlag=Constant.SDFLXCLKJYXGS;
 			epVersion=Constant.VERSION_3_1;
+			apiFlag=Constant.SDWH;
+			break;
+		case Constant.ZBXQHGYXGS://鑫乾
+			cityFlag=Constant.ZI_BO;
+			systemFlag=Constant.ZBXQHGYXGS;
+			epVersion=Constant.VERSION_3_1;
+			apiFlag=Constant.LZQ;
+			break;
+		case Constant.SDBFXCLYXGS://宝沣
+			cityFlag=Constant.TAI_AN;
+			systemFlag=Constant.SDBFXCLYXGS;
+			epVersion=Constant.VERSION_3_1;
+			apiFlag=Constant.SDWH;
+			break;
+		case Constant.WFRZJXHYXGS://瑞中
+			cityFlag=Constant.WEI_FANG;
+			systemFlag=Constant.WFRZJXHYXGS;
+			epVersion=Constant.VERSION_1_3;
 			apiFlag=Constant.SDWH;
 			break;
 		}
@@ -167,6 +178,22 @@ public class APIUtil {
 		finally {
 			reading=false;
 			System.out.println("resultJO==="+resultJO.toString());
+			return resultJO;
+		}
+	}
+
+	public static JSONObject receiveMessage() {
+		// TODO Auto-generated method stub
+		JSONObject resultJO = null;
+		try {
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("systemFlag", systemFlag);
+	        resultJO = doHttp(Constant.SERVER_RECEIVER+"receiveMessage",params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
 			return resultJO;
 		}
 	}
