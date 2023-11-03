@@ -58,10 +58,22 @@ public class APIUtil {
 			epVersion=Constant.VERSION_3_1;
 			apiFlag=Constant.SDWH;
 			break;
-		case Constant.WFRZJXHYXGS://瑞中
+		case Constant.WFRZJXHYXGS://润中
 			cityFlag=Constant.WEI_FANG;
 			systemFlag=Constant.WFRZJXHYXGS;
 			epVersion=Constant.VERSION_1_3;
+			apiFlag=Constant.SDWH;
+			break;
+		case Constant.CYSRHSWKJYXGS://瑞海
+			cityFlag=Constant.WEI_FANG;
+			systemFlag=Constant.CYSRHSWKJYXGS;
+			epVersion=Constant.VERSION_3_1;
+			apiFlag=Constant.SDWH;
+			break;
+		case Constant.SDLTXDKJYXGS://蓝天
+			cityFlag=Constant.WEI_FANG;
+			systemFlag=Constant.SDLTXDKJYXGS;
+			epVersion=Constant.VERSION_3_1;
 			apiFlag=Constant.SDWH;
 			break;
 		}
