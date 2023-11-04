@@ -33,7 +33,7 @@ public class Constant {
 	/**
 	 * 当前系统标识
 	 */
-	public static final int CUR_SYS_FLAG=7;
+	public static final int CUR_SYS_FLAG=3;
 	/**
 	 * 潍坊润中精细化工有限公司
 	 */

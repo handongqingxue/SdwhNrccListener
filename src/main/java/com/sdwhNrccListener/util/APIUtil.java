@@ -18,6 +18,10 @@ public class APIUtil {
 	private static int cityFlag;
 	private static int systemFlag;
 	private static int epVersion;
+	public static int getSystemFlag() {
+		return systemFlag;
+	}
+
 	public static int getEpVersion() {
 		return epVersion;
 	}
@@ -46,12 +50,6 @@ public class APIUtil {
 			epVersion=Constant.VERSION_3_1;
 			apiFlag=Constant.SDWH;
 			break;
-		case Constant.ZBXQHGYXGS://鑫乾
-			cityFlag=Constant.ZI_BO;
-			systemFlag=Constant.ZBXQHGYXGS;
-			epVersion=Constant.VERSION_3_1;
-			apiFlag=Constant.LZQ;
-			break;
 		case Constant.SDBFXCLYXGS://宝沣
 			cityFlag=Constant.TAI_AN;
 			systemFlag=Constant.SDBFXCLYXGS;
@@ -75,6 +73,12 @@ public class APIUtil {
 			systemFlag=Constant.SDLTXDKJYXGS;
 			epVersion=Constant.VERSION_3_1;
 			apiFlag=Constant.SDWH;
+			break;
+		case Constant.ZBXQHGYXGS://鑫乾
+			cityFlag=Constant.ZI_BO;
+			systemFlag=Constant.ZBXQHGYXGS;
+			epVersion=Constant.VERSION_3_1;
+			apiFlag=Constant.LZQ;
 			break;
 		}
 	}
@@ -166,29 +170,86 @@ public class APIUtil {
 	}
 
 	/**
+	 * 插入报警信息
+	 * @return
+	 */
+	public static JSONObject insertWarnRecordData() {
+		// TODO Auto-generated method stub
+		JSONObject resultJO = null;
+		try {
+			int epFlag = systemFlag;
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("epFlag", epFlag);
+	        resultJO = doHttp(Constant.EP_V1_3+"insertWarnRecordData",params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
+			System.out.println("resultJO==="+resultJO.toString());
+			return resultJO;
+		}
+	}
+
+	/**
 	 * 上传省平台位置信息
 	 * @return
 	 */
 	public static JSONObject dataEmployeeLocations() {
 		// TODO Auto-generated method stub
 		JSONObject resultJO = null;
+		String path=null;
 		reading=true;
 		System.out.println("reading2==="+reading);
 		try {
+			if(apiFlag==Constant.SDWH)
+				path=Constant.SDWH_API;
+			else if(apiFlag==Constant.LZQ)
+				path=Constant.LZQ_API;
+			
 			Map<String, Object> params=new HashMap<String, Object>();
+			
+			System.out.println("cityFlag="+cityFlag);
+			System.out.println("systemFlag="+systemFlag);
 			params.put("cityFlag", cityFlag);
 			params.put("systemFlag", systemFlag);
-	        resultJO = doHttp(Constant.SDWH_API+"/dataEmployeeLocations",params);
+			
+	        resultJO = doHttp(path+"/dataEmployeeLocations",params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			if("Connection refused: connect".equals(e.getMessage())) {
-				resultJO.put("success", "false");
-				resultJO.put("message", e.getMessage());
-			}
+			resultJO.put("success", "false");
+			resultJO.put("message", e.getMessage());
 		}
 		finally {
 			reading=false;
+			System.out.println("resultJO==="+resultJO.toString());
+			return resultJO;
+		}
+	}
+	
+	/**
+	 * 上传省平台报警信息
+	 * @return
+	 */
+	public static JSONObject dataEmployeeAlarm() {
+		// TODO Auto-generated method stub
+		JSONObject resultJO = null;
+		String path=null;
+		try {
+			if(apiFlag==Constant.SDWH)
+				path=Constant.SDWH_API;
+			else if(apiFlag==Constant.LZQ)
+				path=Constant.LZQ_API;
+			Map<String, Object> params=new HashMap<String, Object>();
+			params.put("cityFlag", cityFlag);
+			params.put("systemFlag", systemFlag);
+	        resultJO = doHttp(path+"/dataEmployeeAlarm",params);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally {
 			System.out.println("resultJO==="+resultJO.toString());
 			return resultJO;
 		}

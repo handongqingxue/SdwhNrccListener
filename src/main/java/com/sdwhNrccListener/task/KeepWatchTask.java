@@ -37,13 +37,17 @@ public class KeepWatchTask extends Thread {
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
-		try {
-			long millis=0;
-			int epVersion = APIUtil.getEpVersion();
-			if(epVersion==Constant.VERSION_3_1)
-			APIUtil.receiveMessage();
+		long millis=0;
+		int systemFlag = APIUtil.getSystemFlag();
+		int epVersion = APIUtil.getEpVersion();
+		if(epVersion==Constant.VERSION_1_3) {
+			if(systemFlag==Constant.WFRZJXHYXGS)
+				millis=35000;
+			else
+				millis=60000;
+			
 			while (true) {
-				if(epVersion==Constant.VERSION_1_3) {
+				try {
 					JSONObject ildJO = APIUtil.insertLocationData();
 					System.out.println("ildJO==="+ildJO.toString());
 					System.out.println("巡回位置更新........"+ildJO.getBoolean("success"));
@@ -65,17 +69,42 @@ public class KeepWatchTask extends Thread {
 						}
 						*/
 					}
-					millis=35000;
+					
+					JSONObject iwrdJO = APIUtil.insertWarnRecordData();
+					System.out.println("iwrdJO==="+iwrdJO.toString());
+					
+					JSONObject delJO = APIUtil.dataEmployeeLocations();
+					String delCode = delJO.getString("code");
+					System.out.println("delCode="+delCode);
+					if("200".equals(delCode)) {
+						JSONObject deaJO = APIUtil.dataEmployeeAlarm();
+						System.out.println("deaJO==="+deaJO.toString());
+					}
+					Thread.sleep(millis);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				else if(epVersion==Constant.VERSION_3_1) {
-					millis=60000;
-				}
-				JSONObject delJO = APIUtil.dataEmployeeLocations();
-				Thread.sleep(millis);
 			}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}
+		else if(epVersion==Constant.VERSION_3_1) {
+			millis=60000;
+			APIUtil.receiveMessage();
+			while (true) {
+				try {
+					JSONObject delJO = APIUtil.dataEmployeeLocations();
+					String delCode = delJO.getString("code");
+					System.out.println("delCode="+delCode);
+					if("200".equals(delCode)) {
+						JSONObject deaJO = APIUtil.dataEmployeeAlarm();
+						System.out.println("deaJO==="+deaJO.toString());
+					}
+					Thread.sleep(millis);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	
