@@ -88,7 +88,11 @@ public class KeepWatchTask extends Thread {
 			}
 		}
 		else if(epVersion==Constant.VERSION_3_1) {
-			millis=60000;
+			if(systemFlag==Constant.SDFLXCLKJYXGS||
+			   systemFlag==Constant.WFPXHGYXGS)
+				millis=120000;
+			else
+				millis=60000;
 			APIUtil.receiveMessage();
 			while (true) {
 				try {
