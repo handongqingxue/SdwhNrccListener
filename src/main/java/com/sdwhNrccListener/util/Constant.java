@@ -8,6 +8,7 @@ public class Constant {
 	public static final String SDWH_API="sdwhApi/";
 	public static final String LZQ_API="lzqApi/";
 	public static final String SERVER_RECEIVER="serverReceiver/";
+	public static final String UDP_RECEIVER="udpReceiver/";
 
 	/**
 	 * 主窗口标题
@@ -33,7 +34,7 @@ public class Constant {
 	/**
 	 * 当前系统标识
 	 */
-	public static final int CUR_SYS_FLAG=7;
+	public static final int CUR_SYS_FLAG=3;
 	/**
 	 * 潍坊润中精细化工有限公司
 	 */
@@ -62,6 +63,10 @@ public class Constant {
 	 * 山东蓝天消毒科技有限公司
 	 */
 	public static final int SDLTXDKJYXGS=7;
+	/**
+	 * 山东新家园精细化学品有限公司
+	 */
+	public static final int SDXJYJXHXPYXGS=8;
 	
 	public static final int WEI_FANG=1;
 	public static final int HE_ZE=2;

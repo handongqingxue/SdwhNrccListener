@@ -88,8 +88,10 @@ public class KeepWatchTask extends Thread {
 			}
 		}
 		else if(epVersion==Constant.VERSION_3_1) {
-			if(systemFlag==Constant.SDFLXCLKJYXGS||
-			   systemFlag==Constant.WFPXHGYXGS)
+			if(systemFlag==Constant.WFPXHGYXGS||
+			   systemFlag==Constant.SDFLXCLKJYXGS||
+			   systemFlag==Constant.SDXJYJXHXPYXGS
+			   )
 				millis=120000;
 			else
 				millis=60000;
@@ -102,6 +104,90 @@ public class KeepWatchTask extends Thread {
 					if("200".equals(delCode)) {
 						JSONObject deaJO = APIUtil.dataEmployeeAlarm();
 						System.out.println("deaJO==="+deaJO.toString());
+						String deaCode = deaJO.getString("code");
+						System.out.println("deaCode="+deaCode);
+						if("200".equals(deaCode)) {
+							systemFlag = APIUtil.getSystemFlag();
+							System.out.println("systemFlag???=="+systemFlag);
+							if(systemFlag==Constant.WFPXHGYXGS) {
+								System.out.println("1111111111");
+								APIUtil.switchSystem(Constant.SDFLXCLKJYXGS);
+							}
+							else if(systemFlag==Constant.SDFLXCLKJYXGS) {
+								System.out.println("22222222");
+								APIUtil.switchSystem(Constant.SDXJYJXHXPYXGS);
+							}
+							else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
+								System.out.println("333333333");
+								APIUtil.switchSystem(Constant.WFPXHGYXGS);
+							}
+						}
+						else if("-1".equals(deaCode)) {
+							String deaData = deaJO.getString("data");
+							System.out.println("deaData="+deaData);
+							if("暂无报警信息可上传省平台".equals(deaData)) {
+								systemFlag = APIUtil.getSystemFlag();
+								System.out.println("systemFlag???=="+systemFlag);
+								if(systemFlag==Constant.WFPXHGYXGS) {
+									System.out.println("1111111111");
+									APIUtil.switchSystem(Constant.SDFLXCLKJYXGS);
+								}
+								else if(systemFlag==Constant.SDFLXCLKJYXGS) {
+									System.out.println("22222222");
+									APIUtil.switchSystem(Constant.SDXJYJXHXPYXGS);
+								}
+								else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
+									System.out.println("33333333");
+									APIUtil.switchSystem(Constant.WFPXHGYXGS);
+								}
+							}
+						}
+					}
+					else if("-1".equals(delCode)) {
+						String delData = delJO.getString("data");
+						System.out.println("delData="+delData);
+						if("暂无人员位置信息可上传省平台".equals(delData)) {
+							JSONObject deaJO = APIUtil.dataEmployeeAlarm();
+							System.out.println("deaJO==="+deaJO.toString());
+							String deaCode = deaJO.getString("code");
+							System.out.println("deaCode="+deaCode);
+							if("200".equals(deaCode)) {
+								systemFlag = APIUtil.getSystemFlag();
+								System.out.println("systemFlag???=="+systemFlag);
+								if(systemFlag==Constant.WFPXHGYXGS) {
+									System.out.println("1111111111");
+									APIUtil.switchSystem(Constant.SDFLXCLKJYXGS);
+								}
+								else if(systemFlag==Constant.SDFLXCLKJYXGS) {
+									System.out.println("22222222");
+									APIUtil.switchSystem(Constant.SDXJYJXHXPYXGS);
+								}
+								else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
+									System.out.println("333333333333");
+									APIUtil.switchSystem(Constant.WFPXHGYXGS);
+								}
+							}
+							else if("-1".equals(deaCode)) {
+								String deaData = deaJO.getString("data");
+								System.out.println("deaData="+deaData);
+								if("暂无报警信息可上传省平台".equals(deaData)) {
+									systemFlag = APIUtil.getSystemFlag();
+									System.out.println("systemFlag???=="+systemFlag);
+									if(systemFlag==Constant.WFPXHGYXGS) {
+										System.out.println("1111111111");
+										APIUtil.switchSystem(Constant.SDFLXCLKJYXGS);
+									}
+									else if(systemFlag==Constant.SDFLXCLKJYXGS) {
+										System.out.println("22222222");
+										APIUtil.switchSystem(Constant.SDXJYJXHXPYXGS);
+									}
+									else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
+										System.out.println("333333333333");
+										APIUtil.switchSystem(Constant.WFPXHGYXGS);
+									}
+								}
+							}
+						}
 					}
 					Thread.sleep(millis);
 				} catch (Exception e) {

@@ -50,6 +50,12 @@ public class APIUtil {
 			epVersion=Constant.VERSION_3_1;
 			apiFlag=Constant.SDWH;
 			break;
+		case Constant.SDXJYJXHXPYXGS://新家园
+			cityFlag=Constant.WEI_FANG;
+			systemFlag=Constant.SDXJYJXHXPYXGS;
+			epVersion=Constant.VERSION_3_1;
+			apiFlag=Constant.SDWH;
+			break;
 		case Constant.SDBFXCLYXGS://宝沣
 			cityFlag=Constant.TAI_AN;
 			systemFlag=Constant.SDBFXCLYXGS;
@@ -258,10 +264,23 @@ public class APIUtil {
 	public static JSONObject receiveMessage() {
 		// TODO Auto-generated method stub
 		JSONObject resultJO = null;
+		String url=null;
 		try {
+			if(systemFlag==Constant.SDXJYJXHXPYXGS)
+				url=Constant.UDP_RECEIVER+"receiveData";
+			else
+				url=Constant.SERVER_RECEIVER+"receiveMessage";
 			Map<String, Object> params=new HashMap<String, Object>();
 			params.put("systemFlag", systemFlag);
-	        resultJO = doHttp(Constant.SERVER_RECEIVER+"receiveMessage",params);
+	        resultJO = doHttp(url,params);
+	        
+	        if(systemFlag==Constant.WFPXHGYXGS) {
+	        	switchSystem(Constant.SDFLXCLKJYXGS);
+	        	receiveMessage();
+	        }
+	        else if(systemFlag==Constant.SDFLXCLKJYXGS) {
+	        	switchSystem(Constant.WFPXHGYXGS);
+	        }
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
