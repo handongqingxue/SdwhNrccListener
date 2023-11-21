@@ -291,15 +291,15 @@ public class APIUtil {
 		JSONObject resultJO = null;
 		String url=null;
 		try {
-			if(systemFlag==Constant.SDXJYJXHXPYXGS)
+			if(systemFlag==Constant.SDXJYJXHXPYXGS)//新家园用udp协议接收推送
 				url=Constant.UDP_RECEIVER+"receiveData";
-			else
+			else//其他企业用队列协议接收推送
 				url=Constant.SERVER_RECEIVER+"receiveMessage";
 			Map<String, Object> params=new HashMap<String, Object>();
 			params.put("systemFlag", systemFlag);
 	        resultJO = doHttp(url,params);
 	        
-	        if(systemFlag==Constant.WFPXHGYXGS) {
+	        if(systemFlag==Constant.WFPXHGYXGS) {//当前系统标识是普鑫，则下一个系统标识是福林，为注册福林的推送队列而再调用一次这个方法
 	        	switchSystem(Constant.SDFLXCLKJYXGS);
 	        	receiveMessage();
 	        }
@@ -307,7 +307,7 @@ public class APIUtil {
 	        	switchSystem(Constant.SDXJYJXHXPYXGS);
 	        	receiveMessage();
 	        }
-	        else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
+	        else if(systemFlag==Constant.SDXJYJXHXPYXGS) {//当前系统标识是新家园，说明是最后一个注册对象，就把普鑫当作下一个系统标识，为后面的推送位置和报警信息做准备
 	        	switchSystem(Constant.WFPXHGYXGS);
 	        }
 		} catch (Exception e) {
