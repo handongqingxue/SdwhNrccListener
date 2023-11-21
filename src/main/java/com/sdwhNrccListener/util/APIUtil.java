@@ -36,6 +36,10 @@ public class APIUtil {
 		switchSystem(Constant.CUR_SYS_FLAG);
 	}
 	
+	/**
+	 * 根据当前系统标识选择系统
+	 * @param curSysFlag
+	 */
 	public static void switchSystem(int curSysFlag) {
 		switch (curSysFlag) {
 		case Constant.WFPXHGYXGS://普鑫
@@ -88,6 +92,27 @@ public class APIUtil {
 			break;
 		}
 	}
+	
+	/**
+	 * 根据当前系统标识选择下一个系统(用于多个企业部署在同一台服务器情况下，按队列排队推送省平台)
+	 */
+	public static void switchNextSysFlagByCurSysFlag() {
+		System.out.println("curSystemFlag???=="+systemFlag);
+		int nextSysFlag=0;
+		if(systemFlag==Constant.WFPXHGYXGS) {//当前系统是普鑫，下一个推送的系统就是福林
+			//System.out.println("1111111111");
+			nextSysFlag=Constant.SDFLXCLKJYXGS;
+		}
+		else if(systemFlag==Constant.SDFLXCLKJYXGS) {//当前系统是福林，下一个推送的系统就是新家园
+			//System.out.println("22222222");
+			nextSysFlag=Constant.SDXJYJXHXPYXGS;
+		}
+		else if(systemFlag==Constant.SDXJYJXHXPYXGS) {//当前系统是新家园，下一个推送的系统就是普鑫
+			//System.out.println("333333333");
+			nextSysFlag=Constant.WFPXHGYXGS;
+		}
+		APIUtil.switchSystem(nextSysFlag);//把当前系统标识替换为下一个系统标识
+	}
 
 	//https://www.cnblogs.com/aeolian/p/7746158.html
 	//https://www.cnblogs.com/bobc/p/8809761.html
@@ -111,7 +136,7 @@ public class APIUtil {
 			URL url = new URL(Constant.SERVICE_URL+method);
 			HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 			//connection.setConnectTimeout(15000);
-			connection.setReadTimeout(15000);//Read timed out
+			connection.setReadTimeout(25000);//Read timed out
 			connection.setRequestMethod("POST");//请求post方式
 			connection.setDoInput(true); 
 			connection.setDoOutput(true); 
@@ -279,6 +304,10 @@ public class APIUtil {
 	        	receiveMessage();
 	        }
 	        else if(systemFlag==Constant.SDFLXCLKJYXGS) {
+	        	switchSystem(Constant.SDXJYJXHXPYXGS);
+	        	receiveMessage();
+	        }
+	        else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
 	        	switchSystem(Constant.WFPXHGYXGS);
 	        }
 		} catch (Exception e) {

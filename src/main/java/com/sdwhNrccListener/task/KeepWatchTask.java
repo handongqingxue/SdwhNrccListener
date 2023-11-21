@@ -92,7 +92,7 @@ public class KeepWatchTask extends Thread {
 			   systemFlag==Constant.SDFLXCLKJYXGS||
 			   systemFlag==Constant.SDXJYJXHXPYXGS
 			   )
-				millis=120000;
+				millis=70000;
 			else
 				millis=60000;
 			APIUtil.receiveMessage();
@@ -101,98 +101,26 @@ public class KeepWatchTask extends Thread {
 					JSONObject delJO = APIUtil.dataEmployeeLocations();
 					String delCode = delJO.getString("code");
 					System.out.println("delCode="+delCode);
-					if("200".equals(delCode)) {
-						JSONObject deaJO = APIUtil.dataEmployeeAlarm();
-						System.out.println("deaJO==="+deaJO.toString());
-						String deaCode = deaJO.getString("code");
-						System.out.println("deaCode="+deaCode);
-						if("200".equals(deaCode)) {
-							systemFlag = APIUtil.getSystemFlag();
-							System.out.println("systemFlag???=="+systemFlag);
-							if(systemFlag==Constant.WFPXHGYXGS) {
-								System.out.println("1111111111");
-								APIUtil.switchSystem(Constant.SDFLXCLKJYXGS);
-							}
-							else if(systemFlag==Constant.SDFLXCLKJYXGS) {
-								System.out.println("22222222");
-								APIUtil.switchSystem(Constant.SDXJYJXHXPYXGS);
-							}
-							else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
-								System.out.println("333333333");
-								APIUtil.switchSystem(Constant.WFPXHGYXGS);
-							}
-						}
-						else if("-1".equals(deaCode)) {
-							String deaData = deaJO.getString("data");
-							System.out.println("deaData="+deaData);
-							if("暂无报警信息可上传省平台".equals(deaData)) {
-								systemFlag = APIUtil.getSystemFlag();
-								System.out.println("systemFlag???=="+systemFlag);
-								if(systemFlag==Constant.WFPXHGYXGS) {
-									System.out.println("1111111111");
-									APIUtil.switchSystem(Constant.SDFLXCLKJYXGS);
-								}
-								else if(systemFlag==Constant.SDFLXCLKJYXGS) {
-									System.out.println("22222222");
-									APIUtil.switchSystem(Constant.SDXJYJXHXPYXGS);
-								}
-								else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
-									System.out.println("33333333");
-									APIUtil.switchSystem(Constant.WFPXHGYXGS);
-								}
-							}
-						}
-					}
-					else if("-1".equals(delCode)) {
-						String delData = delJO.getString("data");
-						System.out.println("delData="+delData);
-						if("暂无人员位置信息可上传省平台".equals(delData)) {
-							JSONObject deaJO = APIUtil.dataEmployeeAlarm();
-							System.out.println("deaJO==="+deaJO.toString());
-							String deaCode = deaJO.getString("code");
-							System.out.println("deaCode="+deaCode);
-							if("200".equals(deaCode)) {
-								systemFlag = APIUtil.getSystemFlag();
-								System.out.println("systemFlag???=="+systemFlag);
-								if(systemFlag==Constant.WFPXHGYXGS) {
-									System.out.println("1111111111");
-									APIUtil.switchSystem(Constant.SDFLXCLKJYXGS);
-								}
-								else if(systemFlag==Constant.SDFLXCLKJYXGS) {
-									System.out.println("22222222");
-									APIUtil.switchSystem(Constant.SDXJYJXHXPYXGS);
-								}
-								else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
-									System.out.println("333333333333");
-									APIUtil.switchSystem(Constant.WFPXHGYXGS);
-								}
-							}
-							else if("-1".equals(deaCode)) {
-								String deaData = deaJO.getString("data");
-								System.out.println("deaData="+deaData);
-								if("暂无报警信息可上传省平台".equals(deaData)) {
-									systemFlag = APIUtil.getSystemFlag();
-									System.out.println("systemFlag???=="+systemFlag);
-									if(systemFlag==Constant.WFPXHGYXGS) {
-										System.out.println("1111111111");
-										APIUtil.switchSystem(Constant.SDFLXCLKJYXGS);
-									}
-									else if(systemFlag==Constant.SDFLXCLKJYXGS) {
-										System.out.println("22222222");
-										APIUtil.switchSystem(Constant.SDXJYJXHXPYXGS);
-									}
-									else if(systemFlag==Constant.SDXJYJXHXPYXGS) {
-										System.out.println("333333333333");
-										APIUtil.switchSystem(Constant.WFPXHGYXGS);
-									}
-								}
-							}
-						}
-					}
-					Thread.sleep(millis);
+					
+					JSONObject deaJO = APIUtil.dataEmployeeAlarm();
+					System.out.println("deaJO==="+deaJO.toString());
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
+				}
+				finally {
+					try {
+						systemFlag = APIUtil.getSystemFlag();//当前系统标识会不断切换，必须覆盖一下，否则默认为最初的系统标识
+						if(systemFlag==Constant.WFPXHGYXGS||//当前系统标识是普鑫、福林、新家园任何一家，就切换为下一个系统
+						   systemFlag==Constant.SDFLXCLKJYXGS||
+						   systemFlag==Constant.SDXJYJXHXPYXGS) {
+							APIUtil.switchNextSysFlagByCurSysFlag();
+						}
+						Thread.sleep(millis);
+					} catch (InterruptedException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 			}
 		}
