@@ -93,6 +93,8 @@ public class KeepWatchTask extends Thread {
 			   systemFlag==Constant.SDXJYJXHXPYXGS
 			   )
 				millis=70000;
+			else if(systemFlag==Constant.WFRZJXHYXGS)
+				millis=35000;
 			else
 				millis=60000;
 			APIUtil.receiveMessage();

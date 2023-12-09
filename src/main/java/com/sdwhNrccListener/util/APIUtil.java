@@ -69,7 +69,7 @@ public class APIUtil {
 		case Constant.WFRZJXHYXGS://润中
 			cityFlag=Constant.WEI_FANG;
 			systemFlag=Constant.WFRZJXHYXGS;
-			epVersion=Constant.VERSION_1_3;
+			epVersion=Constant.VERSION_3_1;
 			apiFlag=Constant.SDWH;
 			break;
 		case Constant.CYSRHSWKJYXGS://瑞海
