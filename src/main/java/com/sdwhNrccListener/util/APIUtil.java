@@ -88,7 +88,7 @@ public class APIUtil {
 			cityFlag=Constant.ZI_BO;
 			systemFlag=Constant.ZBXQHGYXGS;
 			epVersion=Constant.VERSION_3_1;
-			apiFlag=Constant.LZQ;
+			apiFlag=Constant.SDWH;
 			break;
 		}
 	}
@@ -100,15 +100,12 @@ public class APIUtil {
 		System.out.println("curSystemFlag???=="+systemFlag);
 		int nextSysFlag=0;
 		if(systemFlag==Constant.WFPXHGYXGS) {//当前系统是普鑫，下一个推送的系统就是福林
-			//System.out.println("1111111111");
 			nextSysFlag=Constant.SDFLXCLKJYXGS;
 		}
 		else if(systemFlag==Constant.SDFLXCLKJYXGS) {//当前系统是福林，下一个推送的系统就是新家园
-			//System.out.println("22222222");
 			nextSysFlag=Constant.SDXJYJXHXPYXGS;
 		}
 		else if(systemFlag==Constant.SDXJYJXHXPYXGS) {//当前系统是新家园，下一个推送的系统就是普鑫
-			//System.out.println("333333333");
 			nextSysFlag=Constant.WFPXHGYXGS;
 		}
 		APIUtil.switchSystem(nextSysFlag);//把当前系统标识替换为下一个系统标识

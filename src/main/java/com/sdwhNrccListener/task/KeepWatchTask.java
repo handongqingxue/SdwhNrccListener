@@ -41,10 +41,12 @@ public class KeepWatchTask extends Thread {
 		int systemFlag = APIUtil.getSystemFlag();
 		int epVersion = APIUtil.getEpVersion();
 		if(epVersion==Constant.VERSION_1_3) {
-			if(systemFlag==Constant.WFRZJXHYXGS)
+			if(systemFlag==Constant.WFRZJXHYXGS) {
 				millis=35000;
-			else
+			}
+			else {
 				millis=60000;
+			}
 			
 			while (true) {
 				try {
@@ -88,6 +90,7 @@ public class KeepWatchTask extends Thread {
 			}
 		}
 		else if(epVersion==Constant.VERSION_3_1) {
+			/*
 			if(systemFlag==Constant.WFPXHGYXGS||
 			   systemFlag==Constant.SDFLXCLKJYXGS||
 			   systemFlag==Constant.SDXJYJXHXPYXGS
@@ -97,6 +100,8 @@ public class KeepWatchTask extends Thread {
 				millis=35000;
 			else
 				millis=60000;
+				*/
+			millis=180000;
 			APIUtil.receiveMessage();
 			while (true) {
 				try {
@@ -114,8 +119,9 @@ public class KeepWatchTask extends Thread {
 					try {
 						systemFlag = APIUtil.getSystemFlag();//当前系统标识会不断切换，必须覆盖一下，否则默认为最初的系统标识
 						if(systemFlag==Constant.WFPXHGYXGS||//当前系统标识是普鑫、福林、新家园任何一家，就切换为下一个系统
-						   systemFlag==Constant.SDFLXCLKJYXGS||
-						   systemFlag==Constant.SDXJYJXHXPYXGS) {
+						   systemFlag==Constant.SDFLXCLKJYXGS
+						   ||systemFlag==Constant.SDXJYJXHXPYXGS
+						   ) {
 							APIUtil.switchNextSysFlagByCurSysFlag();
 						}
 						Thread.sleep(millis);
